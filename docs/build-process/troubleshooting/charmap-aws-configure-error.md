@@ -1,6 +1,6 @@
 ## 'charmap' codec can't encode character '\x96'
 
-![charmap error message](../img/charmap-error.png)
+![charmap error message](../../img/charmap-error.png)
 
 If, when configuring the AWS access keys in Git Bash, you encounter the error:
 `'charmap' codec can't encode character '\x96'`
