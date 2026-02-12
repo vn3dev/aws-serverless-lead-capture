@@ -1,0 +1,3 @@
+- Template developed by **TemplateMo**.  
+- Please keep the attribution or footer credit as required by the template license, unless you have a different license or rights.  
+- Always review the **TemplateMo license** to understand permitted use.  
