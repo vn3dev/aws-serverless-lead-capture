@@ -48,24 +48,24 @@ All external access must be via HTTPS
 
 ---
 
-# 1. Requisitos de Negócio
+# 1. Regras de Negócio
 
-### RDN-01  
+### RN-01  
 O sistema deve permitir que os usuários solicitem e baixem um ebook gratuito por meio de um formulário web
 
-### RDN-02  
+### RN-02  
 O sistema deve coletar e armazenar os seguintes dados de contato:
 - Nome
 - Endereço de email
 - Timestamp da submissão
 
-### RDN-03  
+### RN-03  
 O sistema deve enviar uma notificação por email após uma solicitação de download bem-sucedida
 
-### RDN-04  
+### RN-04  
 O sistema deve persistir os dados dos leads para futuras finalidades de análise e marketing
 
-### RDN-05  
+### RN-05  
 Não é necessária autenticação de usuário para o download do ebook
 
 # 2. Requisitos Não Funcionais

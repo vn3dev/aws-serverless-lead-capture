@@ -5,7 +5,7 @@
 2. Have Git installed, I will use Git Bash as the terminal since i am on Windows 10
 
 3. Have AWS CLI downloaded and configured on Windows
-    3.1 Run aws --version in Git Bash. If any error appears, the installation failed or the environment variables were not configured
+    3.1 Run `aws --version` in Git Bash. If any error appears, the installation failed or the environment variables were not configured
     3.2 Configure an access key in AWS to use the CLI: Create an IAM User for short-term credentials (AWS documentation recommendation)
 
 ---
