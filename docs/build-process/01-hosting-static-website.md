@@ -54,7 +54,7 @@ Se tudo deu certo, o site já esta funcionando:
 
 O website esta usando o protocolo HTTP. Um dos requisitos é utilizar HTTPS. Para isso, vou precisar de um certificado público da AWS
 
-Vou precisar de um domínio. Eu não pude usar o Route 53 pois ele não esta incluso no free tier da AWS. Por isso, registrei um dominio na Hostinger.
+Vou precisar de um domínio. Eu não pude usar o Route 53 pois ele não esta incluso no free tier da AWS. Por isso, registrei um dominio na Hostinger
 
 Com o dominio em mãos, fui até o ACM e fiz um request para conseguir o certificado:
 
@@ -68,7 +68,7 @@ Coloquei o dominio da Hostinger. Incluí um com www:
 
 ![ACM cnames aws](../img/09-cname.png)
 
-Agora preciso confirmar a posse do dominio. Para isso, preciso criar um CNAME no painel da Hostinger para cada dominio que fiz a request.
+Agora preciso confirmar a posse do dominio. Para isso, preciso criar um CNAME no painel da Hostinger para cada dominio que fiz a request
 
 Coloquei o mesmo nome e o apontamento que a AWS mostrou no console:
 
@@ -77,3 +77,25 @@ Coloquei o mesmo nome e o apontamento que a AWS mostrou no console:
 No console AWS, temos que esperar a propagação do DNS para validar. Deve demorar uns 10 minutos:
 
 ![ACM pending validation](../img/11-pending%20verification.png)
+
+![ACM issued validation](../img/12-issued-certificate.png)
+
+Com o certificado validado, vamos configurar o CloudFront para poder privar o s3 e direcionar o tráfego. Na pagina do CloudFront, criei uma nova distribuição:
+
+![CloudFront homepage](../img/13-cloudfront-homepage.png)
+
+Selecionei o s3 que criamos e prossegui. Não usei website endpoint, vou deixar o bucket privado assim que o DNS estiver apontando para o CloudFront
+
+![CloudFront configuration page](../img/14-cloudfront-config.png)
+
+Depois de criado, vá em general e edite as settings:
+
+![CloudFront general settings](../img/15-cloudfront-edit-settings-1.png)
+
+![CloudFront general settings2](../img/16-cloudfront-edit-settings-2.png)
+
+Agora precisamos fazer o dominio apontar para o CloudFront. Na hostinger, criei dois novos registros:
+
+![Hostinger registries](../img/17-hostinger-registry.png)
+
+Agora aguardar até o DNS propagar... Podemos checar no console com `nslookup DOMINIO` para ver se o ip ja atualizou
