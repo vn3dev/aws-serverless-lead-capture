@@ -1,7 +1,5 @@
 Com os pre-requisitos cumpridos, comecei a criar a infra do website.
 
-Decidi fazer grande parte das configurações por CLI, para praticar e tornar a reprodução mais ágil em um ambiente corporativo. Tudo que fiz pode ser feito via console de forma visual.
-
 ## Passo 1 - Criar e configurar bucket:
 
 `aws s3 ls` - Para ver os buckets ja existentes
@@ -99,3 +97,33 @@ Agora precisamos fazer o dominio apontar para o CloudFront. Na hostinger, criei 
 ![Hostinger registries](../img/17-hostinger-registry.png)
 
 Agora aguardar até o DNS propagar... Podemos checar no console com `nslookup DOMINIO` para ver se o ip ja atualizou
+
+Confirmei que o dominio estava funcionando e prossegui deixando o bucket privado para permitir o acesso apenas pelo CloudFront
+
+No console AWS, fui no meu bucket e em permissions. Bloqueei o acesso público e alterei as politicas para permitir apenas o CloudFront:
+
+![Bucket block public access](../img/18-bucket-block-public.png)
+
+![Bucket policy edit](../img/19-bucket-policy.png)
+
+```Bucket Policy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowCloudFrontServicePrincipal",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::vn3project-ebook/*",
+            "Condition": {
+                "StringEquals": {
+                    "AWS:SourceArn": "arn:aws:cloudfront::293012440829:distribution/E23ZHPMGO5C5SG"
+                }
+            }
+        }
+    ]
+}
+```
