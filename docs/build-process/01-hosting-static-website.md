@@ -135,3 +135,11 @@ Testando para ver se o acesso direto ao bucket retorna 403:
 ![Bucket response](../img/21-bucket-403.png)
 
 ![Bucket index response](../img/22-bucket-403-index.png)
+
+Para finalizar, desativei o static website ja que não estamos mais utilizando:
+
+`aws s3api delete-bucket-website --bucket vn3project-ebook`
+
+Pode confirmar que desativou com:
+
+`aws s3api get-bucket-website --bucket vn3project-ebook` - Deve retornar: `An error occurred (NoSuchWebsiteConfiguration)`
