@@ -51,3 +51,29 @@ Com a mensagem de erro funcionando, vou subir os arquivos do website usando:
 Se tudo deu certo, o site já esta funcionando:
 
 ![Website working homepage](../img/05-hosted-website.png)
+
+O website esta usando o protocolo HTTP. Um dos requisitos é utilizar HTTPS. Para isso, vou precisar de um certificado público da AWS
+
+Vou precisar de um domínio. Eu não pude usar o Route 53 pois ele não esta incluso no free tier da AWS. Por isso, registrei um dominio na Hostinger.
+
+Com o dominio em mãos, fui até o ACM e fiz um request para conseguir o certificado:
+
+![ACM list certificates pages](../img/06-empty%20certificates.png)
+
+![ACM public certificate](../img/07-request-certificate.png)
+
+Coloquei o dominio da Hostinger. Incluí um com www:
+
+![ACM domain names](../img/08-domain-names.png)
+
+![ACM cnames aws](../img/09-cname.png)
+
+Agora preciso confirmar a posse do dominio. Para isso, preciso criar um CNAME no painel da Hostinger para cada dominio que fiz a request.
+
+Coloquei o mesmo nome e o apontamento que a AWS mostrou no console:
+
+![Hostinger CNAME config](../img/10-cname-hostinger.png)
+
+No console AWS, temos que esperar a propagação do DNS para validar. Deve demorar uns 10 minutos:
+
+![ACM pending validation](../img/11-pending%20verification.png)
