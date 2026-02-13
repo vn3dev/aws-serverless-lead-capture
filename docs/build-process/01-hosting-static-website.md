@@ -127,3 +127,11 @@ No console AWS, fui no meu bucket e em permissions. Bloqueei o acesso público e
     ]
 }
 ```
+
+Testando para ver se o acesso direto ao bucket retorna 403:
+
+![Bucket web response](../img/20-bucket-403-web.png)
+
+![Bucket response](../img/21-bucket-403.png)
+
+![Bucket index response](../img/22-bucket-403-index.png)
