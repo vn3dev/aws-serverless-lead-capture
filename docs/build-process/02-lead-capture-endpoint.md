@@ -132,3 +132,9 @@ Testei a API para ver se retornava 200 no CLI, lembre de trocar a URL da API:
 Sucesso!
 
 ![Git bash test sucessful](../img/34-api-successful.png)
+
+Conferindo no CloudWatch os logs ja estão sendo registrados:
+
+![Log manager page](../img/35-cloudwatch-logs.png)
+
+![Log events registry](../img/36-log-events.png)
