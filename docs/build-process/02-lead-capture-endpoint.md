@@ -120,3 +120,7 @@ Com o Lambda funcionando, prossegui para criar a API. Criei uma REST API no API 
 Criei um resource e depois um metodo:
 
 ![API method config page](../img/32-create-method-config-page.png)
+
+Ativei o CORS e dei deploy na API:
+
+![API deploy confirmation page](../img/33-api-stages.png)
