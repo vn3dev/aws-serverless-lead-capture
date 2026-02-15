@@ -112,3 +112,11 @@ Dei deploy no codigo e testei criando um evento com dados imaginários:
 Se tudo deu certo, vamos receber um email com os dados capturados no teste:
 
 ![Reciever email inbox](../img/30-gmail-test.png)
+
+Com o Lambda funcionando, prossegui para criar a API. Criei uma REST API no API Gateway:
+
+![Create API config page](../img/31-create-api-page.png)
+
+Criei um resource e depois um metodo:
+
+![API method config page](../img/32-create-method-config-page.png)
