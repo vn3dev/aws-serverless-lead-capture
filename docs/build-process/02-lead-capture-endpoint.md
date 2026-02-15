@@ -124,3 +124,11 @@ Criei um resource e depois um metodo:
 Ativei o CORS e dei deploy na API:
 
 ![API deploy confirmation page](../img/33-api-stages.png)
+
+Testei a API para ver se retornava 200 no CLI, lembre de trocar a URL da API:
+
+`curl -i -X POST "https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/vn3ebook-resource" -H "Origin: https://your-site-domain.com" -H "Content-Type: application/json" -d '{"name":"Vinicius Costa","phone":"+55123456789","email":"user@example.com","message":"Hello from curl"}'`
+
+Sucesso!
+
+![Git bash test sucessful](../img/34-api-successful.png)
