@@ -1,3 +1,5 @@
+### IMPORTANTE: Esse projeto foi desenvolvido em um ambiente controlado com fins pedagógicos e de auto aprendizado. Esse projeto não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
+
 ## Nessa seção:
 - Configurei o SES criando as identidades de e-mail necessárias
 - Criei uma IAM Policy e Role permitindo que o Lambda registrasse logs no CloudWatch e enviasse e-mails via SES
@@ -101,7 +103,7 @@ Message: ${event.message}`,
 
 ![Lambda code block](../img/27-lambda-function-code.png)
 
-## IMPORTANTE: Esse código é apenas para meu lab em um ambiente controlado de aprendizado. O código NÃO tem segurança e nem validação e NÃO deve ser usado em ambientes reais.
+### IMPORTANTE: Esse código é apenas para meu lab em um ambiente controlado de aprendizado. O código NÃO tem segurança e nem validação e NÃO deve ser usado em ambientes reais.
 
 Lembrete:
     1. `const ses = new SESClient({ region: "us-east-1" });` - Selecionar a mesma região onde o SES esta configurado
@@ -210,8 +212,6 @@ Na parte de scripts, adicionei um novo script para chamar a API. Ela faz o post 
        })();
    </script>
 ```
-
-## IMPORTANTE: A API não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto tem fins pedagógicos e de auto aprendizado: Não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
 
 Testando o index.html:
 

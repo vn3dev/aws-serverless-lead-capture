@@ -1,9 +1,11 @@
+### IMPORTANTE: Esse projeto foi desenvolvido em um ambiente controlado com fins pedagógicos e de auto aprendizado. Esse projeto não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
+
 ## Nessa seção:
 - Eu criei um bucket S3, configurei o static website hosting, ajustei as permissões e subi os arquivos do projeto via AWS CLI
 - Depois, registrei um domínio na Hostinger, solicitei um certificado público no ACM e validei a posse do domínio via CNAME
 - Por fim, configurei o CloudFront com HTTPS, apontei o DNS para a distribuição e deixei o bucket privado, permitindo acesso apenas pelo CloudFront
 
-## Seção 1 - Hosting Estatico na AWS com HTTPS:
+## Seção 01 - Hosting Estatico na AWS com HTTPS:
 
 `aws s3 ls` - Para ver os buckets ja existentes
 
