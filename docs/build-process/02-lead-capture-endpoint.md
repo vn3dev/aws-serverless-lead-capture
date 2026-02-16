@@ -228,3 +228,13 @@ Antes de testar, precisamos invalidar o cache no CloudFront para ele atualizar o
 ![CloudFront create invalidation config page](../img/41-create-invalidation.png)
 
 Só esperar alguns segundos e o cache vai ser atualizado...
+
+Testando agora em vn3infra.com:
+
+![vn3infra.com form page](../img/42-API-test-on-domain.png)
+
+![vn3infra.com response message](../img/43-API-test-message.png)
+
+![vn3infra.com network log](../img/44-API-network-log.png)
+
+![Email inbox page](../img/45-API-email.png)
