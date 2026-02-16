@@ -1,6 +1,12 @@
-Com o s3, CloudFront e DNS configurados, vou começar a fazer a captura dos dados do cliente. No caso, email e nome.
+## Nessa seção:
+- Configurei o SES criando as identidades de e-mail necessárias
+- Criei uma IAM Policy e Role permitindo que o Lambda registrasse logs no CloudWatch e enviasse e-mails via SES
+- Desenvolvi uma Lambda em Node.js para receber os dados do formulário e disparar o envio de e-mail
+- Publiquei uma REST API no API Gateway, habilitei CORS e validei o funcionamento via curl e logs
+- Integrei o frontend ao endpoint da API usando fetch com método POST
+- Atualizei os arquivos no S3, fiz invalidation no CloudFront e validei o fluxo completo pelo domínio, confirmando e-mails e logs no CloudWatch
 
-## Passo 02 - Captura de email e nome:
+## Seção 02 - Captura de email e nome:
 
 Criei duas novas identidades no SES usando endereços de e-mail
 

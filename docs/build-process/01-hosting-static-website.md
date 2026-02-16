@@ -1,6 +1,9 @@
-Com os pre-requisitos cumpridos, comecei a criar a infra do website.
+## Nessa seção:
+- Eu criei um bucket S3, configurei o static website hosting, ajustei as permissões e subi os arquivos do projeto via AWS CLI
+- Depois, registrei um domínio na Hostinger, solicitei um certificado público no ACM e validei a posse do domínio via CNAME
+- Por fim, configurei o CloudFront com HTTPS, apontei o DNS para a distribuição e deixei o bucket privado, permitindo acesso apenas pelo CloudFront
 
-## Passo 1 - Criar e configurar bucket:
+## Seção 1 - Hosting Estatico na AWS com HTTPS:
 
 `aws s3 ls` - Para ver os buckets ja existentes
 
