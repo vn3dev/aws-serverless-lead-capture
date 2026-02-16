@@ -138,3 +138,9 @@ Conferindo no CloudWatch os logs ja estão sendo registrados:
 ![Log manager page](../img/35-cloudwatch-logs.png)
 
 ![Log events registry](../img/36-log-events.png)
+
+Agora, vou fazer o frontend se conectar com o API gateway. Precisamos fazer algumas mudanças no nosso template, já que não permitimos post no CloudFront anteriormente e o s3 não suporta esse método não estatico. No contact-form:
+
+![Code changes at forms](../img/37-form-changes.png)
+
+`<form id="contact-form" class="custom-form ebook-download-form bg-white shadow" role="form">`
