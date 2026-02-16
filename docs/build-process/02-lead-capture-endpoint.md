@@ -206,3 +206,25 @@ Na parte de scripts, adicionei um novo script para chamar a API. Ela faz o post 
 ```
 
 ## IMPORTANTE: A API não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto tem fins pedagógicos e de auto aprendizado: Não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
+
+Testando o index.html:
+
+![index.html form testing](../img/38-script-index-testing.png)
+
+Enviando, recebemos a mensagem de sucesso:
+
+![Success page message](../img/39-script-message.png)
+
+Para confirmar que nossa API funcionou e a chave esta correta, devemos ter recebido um e-mail com os dados do usuário:
+
+![Email inbox page](../img/40-script-email-recieved.png)
+
+Sucesso! Agora posso subir os arquivos para o s3:
+
+`aws s3 sync . s3://MEU_BUCKET` - Troque "." pelo diretório do app, se já não estiver nele
+
+Antes de testar, precisamos invalidar o cache no CloudFront para ele atualizar o origin s3. Sem invalidar, teriamos que esperar até o TTL acabar para atualizar o cache da CDN. Fui em CloudFront e criei uma invalidation:
+
+![CloudFront create invalidation config page](../img/41-create-invalidation.png)
+
+Só esperar alguns segundos e o cache vai ser atualizado...
