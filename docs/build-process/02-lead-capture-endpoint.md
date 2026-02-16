@@ -238,3 +238,9 @@ Testando agora em vn3infra.com:
 ![vn3infra.com network log](../img/44-API-network-log.png)
 
 ![Email inbox page](../img/45-API-email.png)
+
+Para finalizar os testes, conferi nossos logs no CloudWatch:
+
+![CloudWatch latest log streams](../img/46-latest-logs.png)
+
+Tudo funcionando perfeitamente!
