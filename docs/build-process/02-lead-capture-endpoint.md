@@ -144,3 +144,65 @@ Agora, vou fazer o frontend se conectar com o API gateway. Precisamos fazer algu
 ![Code changes at forms](../img/37-form-changes.png)
 
 `<form id="contact-form" class="custom-form ebook-download-form bg-white shadow" role="form">`
+
+Na parte de scripts, adicionei um novo script para chamar a API. Ela faz o post no API Gateway e devolve uma mensagem de sucesso ou erro para o cliente
+
+```
+  <script>     
+      (function () {
+           const URL = "https://xxxxxxxxxxx.execute-api.eu-north-1.amazonaws.com/dev/resource-name";
+
+
+           const form = document.getElementById('contact-form');
+           if (!form) {
+               console.error("contact-form not found in DOM");
+               return;
+           }
+
+
+           form.addEventListener('submit', async function (e) {
+               e.preventDefault();
+
+
+               const name = document.getElementById('ebook-form-name')?.value || "";
+               const email = document.getElementById('ebook-email')?.value || "";
+               const messageEl = document.getElementById('ebook-message'); // optional field
+               const message = messageEl ? messageEl.value : "";
+
+
+               try {
+                   const resp = await fetch(URL, {
+                       method: 'POST',
+                       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                       body: JSON.stringify({ name, email, message }),
+                       // mode: 'cors' // not required, but harmless if you want to make it explicit
+                   });
+
+
+                   const contentType = resp.headers.get('content-type') || '';
+                   let bodyText = '';
+                   try { bodyText = await resp.text(); } catch { }
+
+
+                   console.log('API status:', resp.status);
+                   console.log('API headers:', Object.fromEntries(resp.headers.entries()));
+                   console.log('API body:', bodyText);
+
+
+                   if (!resp.ok) {
+                       throw new Error(`HTTP ${resp.status} - ${bodyText || 'No body'}`);
+                   }
+
+
+                   alert("Thanks for contacting us, we will get back to you soon!");
+                   this.reset();
+               } catch (err) {
+                   console.error("Request failed:", err);
+                   alert("Something went wrong. Please try again.");
+               }
+           });
+       })();
+   </script>
+```
+
+## IMPORTANTE: A API não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto tem fins pedagógicos e de auto aprendizado: Não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas

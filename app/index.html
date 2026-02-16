@@ -461,7 +461,7 @@ https://templatemo.com/tm-588-ebook-landing
                 <div class="row">
 
                     <div class="col-lg-5 col-12 mx-auto">
-                        <form class="custom-form ebook-download-form bg-white shadow" action="#" method="post"
+                        <form id="contact-form" class="custom-form ebook-download-form bg-white shadow" role="form">
                             role="form">
                             <div class="text-center mb-5">
                                 <h2 class="mb-1">Get your free ebook</h2>
@@ -554,6 +554,65 @@ https://templatemo.com/tm-588-ebook-landing
     <script src="js/jquery.sticky.js"></script>
     <script src="js/click-scroll.js"></script>
     <script src="js/custom.js"></script>
+
+     <script>     
+      (function () {
+           const URL = "https://xxxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/vn3ebook-resource";
+
+
+           const form = document.getElementById('contact-form');
+           if (!form) {
+               console.error("contact-form not found in DOM");
+               return;
+           }
+
+
+           form.addEventListener('submit', async function (e) {
+               e.preventDefault();
+
+
+               const name = document.getElementById('ebook-form-name')?.value || "";
+               const email = document.getElementById('ebook-email')?.value || "";
+               const messageEl = document.getElementById('ebook-message'); // optional field
+               const message = messageEl ? messageEl.value : "";
+
+
+               try {
+                   const resp = await fetch(URL, {
+                       method: 'POST',
+                       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                       body: JSON.stringify({ name, email, message }),
+                       // mode: 'cors' // not required, but harmless if you want to make it explicit
+                   });
+
+
+                   const contentType = resp.headers.get('content-type') || '';
+                   let bodyText = '';
+                   try { bodyText = await resp.text(); } catch { }
+
+
+                   console.log('API status:', resp.status);
+                   console.log('API headers:', Object.fromEntries(resp.headers.entries()));
+                   console.log('API body:', bodyText);
+
+
+                   if (!resp.ok) {
+                       throw new Error(`HTTP ${resp.status} - ${bodyText || 'No body'}`);
+                   }
+
+
+                   alert("Thanks for contacting us, we will get back to you soon!");
+                   this.reset();
+               } catch (err) {
+                   console.error("Request failed:", err);
+                   alert("Something went wrong. Please try again.");
+               }
+           });
+       })();
+   </script>
+
+
+
 
 </body>
 
