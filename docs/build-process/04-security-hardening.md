@@ -91,3 +91,42 @@ function corsHeaders(event) {
 Ao tentar dar fetch com a minha API em um alguma outra origin:
 
 ![Fetching my API from google.com](../img/62-response.png)
+
+Para evitar alguns abusos do input do usuário, defini alguns limites para os dados que o usuario pode inserir:
+
+```
+const LIMITS = {
+  name: 100,
+  email: 254,
+  phone: 30,
+  message: 1000,
+};
+```
+
+```
+function sanitize(value, maxLen) {
+  if (value === undefined || value === null) return "";
+  const str = String(value).trim();
+  if (!str) return "";
+  return str.length > maxLen ? str.slice(0, maxLen) : str;
+}
+```
+
+```
+const name = sanitize(body?.name, LIMITS.name);
+const email = sanitize(body?.email, LIMITS.email).toLowerCase();
+const phone = sanitize(body?.phone, LIMITS.phone);
+const message = sanitize(body?.message, LIMITS.message);
+```
+
+```
+if (!EMAIL_RE.test(email)) {
+  return {
+    statusCode: 400,
+    headers: corsHeaders(event),
+    body: JSON.stringify({ error: "invalid email format" }),
+  };
+}
+```
+
+Mesmo que o usuário coloque mais dos caracteres inseridos, o banco só registra até o max
