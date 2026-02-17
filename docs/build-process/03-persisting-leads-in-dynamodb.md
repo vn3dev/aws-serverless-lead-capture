@@ -1,5 +1,11 @@
 ### IMPORTANTE: Esse projeto foi desenvolvido em um ambiente controlado com fins pedagógicos e de auto aprendizado. Esse projeto não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
 
+## Nessa seção:
+- Fiz a tabela ContactMessages no DynamoDB via AWS CLI
+- Percebi que a role do Lambda não tinha permissão no DynamoDB e adicionei uma inline policy com dynamodb:PutItem
+- Atualizei o Lambda pra salvar a mensagem no DynamoDB e enviar e-mail via SES, com validação básica e CORS
+- Dei deploy e testei no console e no meu domínio: e-mail chegou e os itens apareceram na tabela
+
 ## Seção 03 - Configurando DynamoDB
 
 Vou começar criando a table. Para isso usei o AWS CLI:
@@ -132,3 +138,19 @@ Dei deploy e fiz um teste rápido na pagina do Lambda:
 Sucesso, uma conferida no email para garantir que esta tudo certo:
 
 ![Lambda code e-mail](../img/52-lambda-email-confirmation.png)
+
+Teste final usando o dominio:
+
+![vn3infra.com form testing](../img/53-domain-test.png)
+
+![vn3infra.com form response](../img/54-domain-test-2.png)
+
+![vn3infra.com network](../img/55-domain-test-network.png)
+
+![vn3infra.com email inbox](../img/56-domain-test-email.png)
+
+Acessando a table do DynamoDB, os dados ja estão sendo armazenados:
+
+![DynamoDB table items](../img/57-dynamodb-table.png)
+
+Com tudo funcionando, a arquitetura esta completa 
