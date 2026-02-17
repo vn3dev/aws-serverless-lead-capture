@@ -1,8 +1,4 @@
-<p align="right">
-  <a href="#pt-br-version">
-    <img src="https://img.shields.io/badge/Versão%20em-Português🇧🇷-green?style=for-the-badge" />
-  </a>
-</p>
+[🇧🇷 Versão em Português](#versao-em-portugues)
 
 ### IMPORTANT: This project was developed in a controlled environment for educational and self-learning purposes. This project did not go through security or authentication criteria. Using this in a real production environment may expose the company to system vulnerabilities and cause financial and legal consequences in accordance with the General Data Protection Law (Lei Geral de Proteção de Dados) and the Brazilian Civil Rights Framework for the Internet (Marco Civil da Internet). This project must not be reproduced in a professional environment without first undergoing a thorough security validation and best practices review.
 
@@ -154,8 +150,6 @@ Finally, I disabled static website hosting since it is no longer being used:
 You can confirm it was disabled with:
 
 `aws s3api get-bucket-website --bucket vn3project-ebook` - It should return: An error occurred (NoSuchWebsiteConfiguration)
-
-<a id="pt-br-version"></a>
 
 ---
 
