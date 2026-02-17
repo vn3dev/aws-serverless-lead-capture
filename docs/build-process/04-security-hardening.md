@@ -130,3 +130,72 @@ if (!EMAIL_RE.test(email)) {
 ```
 
 Mesmo que o usuário coloque mais dos caracteres inseridos, o banco só registra até o max
+
+Para evitar payloads muito grandes e inundar o database. Foi feita uma alteração no Lambda code para retornar 413 caso o payload seja maior que 2000 caracteres:
+
+```
+    if (body.length>2000) return {
+        statusCode: 413,
+        headers: corsHeaders(event),
+        body: JSON.stringify({ error: "message too long" }),
+    }
+```
+Também ativei o throttling nas configs do API Gateway e defini o rate limit para 10 e o burst para 20
+
+![Throttling settings](../img/63-enable-throttling.png)
+
+Além disso, configurei variáveis de ambiente no Lambda para armazenar os e-mails e a table do Ddb. Se uma variável estiver vazia, o Lambda não executa e retorna 500. Se todas as variáveis forem validadas, ele retorna 200 e executa o Lambda normalmente.
+
+![Lambda env variables](../img/64-env-var-lambda.png)
+
+No codigo Lambda, fiz as variáveis de ambiente:
+
+```
+const REGION = mustEnv("AWS_REGION");
+const TABLE_NAME = mustEnv("TABLE_NAME");
+const RECEIVER = mustEnv("RECEIVER_EMAIL");
+const SENDER = mustEnv("SENDER_EMAIL");
+```
+
+Clients só depois de validar:
+
+```
+const ses = new SESClient({ region: REGION });
+const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+```
+
+Fail-fast. Se env estiver faltando, nem tenta processar request:
+
+```
+  const envCheck = validateRuntimeConfig();
+  if (!envCheck.ok) {
+    console.error("config_error", envCheck);
+    return {
+      statusCode: 500,
+      headers: corsHeaders(event),
+      body: JSON.stringify({
+        error: "Service misconfigured",
+        missing: envCheck.missing, // opcional: pode remover em prod
+      }),
+    };
+  }
+```
+
+```
+function validateRuntimeConfig() {
+  const required = {
+    AWS_REGION: REGION,
+    TABLE_NAME,
+    RECEIVER_EMAIL: RECEIVER,
+    SENDER_EMAIL: SENDER,
+  };
+
+  const missing = Object.entries(required)
+    .filter(([, v]) => !v)
+    .map(([k]) => k);
+
+  return { ok: missing.length === 0, missing };
+}
+```
+
+Reconheço que usar o WAF seria mais facil e eficiente. Mas como estou no free tier e esse é apenas um lab para aprendizado, optei por manter o projeto sem custos
