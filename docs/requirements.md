@@ -31,19 +31,19 @@ The system must scale horizontally without requiring infrastructure reconfigurat
 ### NFR-03  
 The system must rely exclusively on managed AWS services with an SLA of at least 99.9% availability
 
-### NFR-03  
+### NFR-04  
 The system must not require manual restarts or server maintenance to remain operational
 
-### NFR-04  
+### NFR-05  
 All API endpoints must enforce HTTPS using TLS 1.2 or higher
 
-### NFR-05  
+### NFR-06  
 Data must be encrypted at rest using AWS-managed encryption
 
-### NFR-06  
+### NFR-07  
 Access to storage resources must follow the principle of least privilege via IAM roles
 
-### NFR-07  
+### NFR-08  
 All external access must be via HTTPS
 
 ---
@@ -79,17 +79,17 @@ O sistema deve escalar horizontalmente sem exigir reconfiguração da infraestru
 ### RNF-03  
 O sistema deve depender exclusivamente de serviços gerenciados da AWS com um SLA de pelo menos 99,9% de disponibilidade
 
-### RNF-03  
+### RNF-04  
 O sistema não deve exigir reinicializações manuais ou manutenção de servidor para permanecer operacional
 
-### RNF-04  
+### RNF-05  
 Todos os endpoints da API devem impor HTTPS utilizando TLS 1.2 ou superior
 
-### RNF-05  
+### RNF-06  
 Os dados devem ser criptografados em repouso utilizando criptografia gerenciada pela AWS
 
-### RNF-06  
+### RNF-07  
 O acesso aos recursos de armazenamento deve seguir o princípio do menor privilégio por meio de funções IAM
 
-### RNF-07  
+### RNF-08  
 Todo acesso externo deve ser via HTTPS

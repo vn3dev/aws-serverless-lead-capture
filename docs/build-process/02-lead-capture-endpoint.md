@@ -158,7 +158,7 @@ Na parte de scripts, adicionei um novo script para chamar a API. Ela faz o post 
 ```
   <script>     
       (function () {
-           const URL = "https://xxxxxxxxxxx.execute-api.eu-north-1.amazonaws.com/dev/resource-name";
+           const URL = "https://xxxxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/resource-name";
 
 
            const form = document.getElementById('contact-form');
