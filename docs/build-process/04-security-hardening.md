@@ -61,3 +61,33 @@ Email antigo:
 Email novo:
 
 ![New email inbox message](../img/61-new-email.png)
+
+Agora sobre CORS, o código permitia qualquer origin chamar a minha API. Isso permite que outros sites usem a API e leiam as respostas. Para corrigir isso, ativei o lambda proxy integrations no API Gateway, passando a responsabilidade do CORS para o Lambda. No Lambda, especifiquei quais origins são válidas e alterei corsHeaders(event) para validar a origin
+
+No Lambda:
+
+```
+const ALLOWED_ORIGINS = new Set([
+  "https://vn3infra.com",
+  "https://www.vn3infra.com",
+]);
+```
+
+```
+function corsHeaders(event) {
+  const origin = event?.headers?.origin || event?.headers?.Origin || "";
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "null";
+
+  return {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Vary": "Origin",
+    "Access-Control-Allow-Methods": "OPTIONS,POST",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+```
+
+Ao tentar dar fetch com a minha API em um alguma outra origin:
+
+![Fetching my API from google.com](../img/62-response.png)
