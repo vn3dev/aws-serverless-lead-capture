@@ -1,0 +1,156 @@
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { randomUUID } from "crypto";
+
+const REGION = process.env.AWS_REGION || "us-east-1";
+const TABLE_NAME = process.env.TABLE_NAME || "ContactMessages";
+
+const RECEIVER = "vinicosta.vn3dev@gmail.com";
+const SENDER = "vinicosta.eng@proton.me";
+
+const ses = new SESClient({ region: REGION });
+const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const ALLOWED_ORIGINS = new Set([
+  "https://vn3infra.com",
+  "https://www.vn3infra.com",
+]);
+
+const LIMITS = {
+  name: 100,
+  email: 254,
+  phone: 30,
+  message: 1000,
+};
+
+export const handler = async (event) => {
+  const requestId = event?.requestContext?.requestId;
+  const method = event?.httpMethod;
+  const origin = event?.headers?.origin || event?.headers?.Origin || "";
+  console.log("request", JSON.stringify({ requestId, method, origin }));
+
+  if (method === "OPTIONS") {
+    return {
+      statusCode: 204,
+      headers: corsHeaders(event),
+      body: "",
+    };
+  }
+
+  try {
+    const body = parseJsonBody(event?.body);
+
+    const name = sanitize(body?.name, LIMITS.name);
+    const email = sanitize(body?.email, LIMITS.email).toLowerCase();
+    const phone = sanitize(body?.phone, LIMITS.phone);
+    const message = sanitize(body?.message, LIMITS.message);
+
+    if (!name || !email) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders(event),
+        body: JSON.stringify({ error: "name and email are required" }),
+      };
+    }
+
+    if (!EMAIL_RE.test(email)) {
+      return {
+        statusCode: 400,
+        headers: corsHeaders(event),
+        body: JSON.stringify({ error: "invalid email format" }),
+      };
+    }
+
+    const id = randomUUID();
+    const ts = new Date().toISOString();
+
+    await ddb.send(
+      new PutCommand({
+        TableName: TABLE_NAME,
+        Item: { id, name, phone, email, message, createdAt: ts },
+      })
+    );
+
+    const emailMasked = maskEmail(email);
+
+    const params = {
+      Destination: { ToAddresses: [RECEIVER] },
+      Message: {
+        Subject: { Data: `Website Query Form: ${name}`, Charset: "UTF-8" },
+        Body: {
+          Text: {
+            Data: `Full Name: ${name}
+Phone: ${phone}
+Email: ${emailMasked}
+Message: ${message}
+ID: ${id}
+Time: ${ts}`,
+            Charset: "UTF-8",
+          },
+        },
+      },
+      Source: SENDER,
+      ReplyToAddresses: [email],
+    };
+
+    await ses.send(new SendEmailCommand(params));
+
+    return {
+      statusCode: 200,
+      headers: corsHeaders(event),
+      body: JSON.stringify({ ok: true, id }),
+    };
+  } catch (err) {
+    console.error("Error:", err);
+    return {
+      statusCode: 500,
+      headers: corsHeaders(event),
+      body: JSON.stringify({ error: "Internal error" }),
+    };
+  }
+};
+
+function corsHeaders(event) {
+  const origin = event?.headers?.origin || event?.headers?.Origin || "";
+  const allowOrigin = ALLOWED_ORIGINS.has(origin) ? origin : "null";
+
+  return {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Vary": "Origin",
+    "Access-Control-Allow-Methods": "OPTIONS,POST",
+    "Access-Control-Allow-Headers": "Content-Type",
+  };
+}
+
+function parseJsonBody(body) {
+  if (!body) return {};
+  if (typeof body !== "string") return body;
+  try {
+    return JSON.parse(body);
+  } catch {
+    return {};
+  }
+}
+
+function sanitize(value, maxLen) {
+  if (value === undefined || value === null) return "";
+  const str = String(value).trim();
+  if (!str) return "";
+  return str.length > maxLen ? str.slice(0, maxLen) : str;
+}
+
+function maskEmail(email) {
+  if (!email || typeof email !== "string") return "";
+  const parts = email.trim().split("@");
+  if (parts.length !== 2) return email;
+
+  const [user, domain] = parts;
+  if (!user) return `*@${domain}`;
+  if (user.length === 1) return `${user}***@${domain}`;
+
+  return `${user[0]}***@${domain}`;
+}
