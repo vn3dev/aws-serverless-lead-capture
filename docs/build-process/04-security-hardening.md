@@ -141,15 +141,94 @@ if (!EMAIL_RE.test(email)) {
 
 Even if the user submits more characters than allowed, the database only stores up to the defined maximum.
 
-To prevent very large payloads from overwhelming the database, I updated the Lambda code to return 413 if the payload exceeds 2000 characters:
+To prevent excessively large payloads from flooding the database, a change was made to the Lambda code to return 413 when the request body exceeds 2000 characters.
+
+First, I added a constant to define the limit:
+
+`const MAX_BODY_CHARS = 2000;`
+
+I then replaced the body parsing logic with a more robust function that:
+  - Validates isBase64Encoded
+  - Returns 413 when the payload exceeds MAX_BODY_CHARS
+  - Returns 400 for invalid JSON
+  - Ensures the handler always works with a proper object
 
 ```ts
-if (body.length > 2000) return {
-    statusCode: 413,
-    headers: corsHeaders(event),
-    body: JSON.stringify({ error: "message too long" }),
+function parseJsonBody(event, maxChars) {
+  const raw = event?.body;
+
+  if (!raw) {
+    return { ok: true, data: {}, rawLength: 0 };
+  }
+
+  // If it already comes as an object (rare, but possible), attempt to measure and accept
+  if (typeof raw !== "string") {
+    try {
+      const asString = JSON.stringify(raw);
+      if (asString.length > maxChars) {
+        return { ok: false, statusCode: 413, error: "message too long" };
+      }
+      if (raw && typeof raw === "object") {
+        return { ok: true, data: raw, rawLength: asString.length };
+      }
+      return { ok: true, data: {}, rawLength: asString.length };
+    } catch {
+      return { ok: false, statusCode: 400, error: "invalid request body" };
+    }
+  }
+
+  // Body string: decode if base64 encoded
+  let text = raw;
+  if (event?.isBase64Encoded === true) {
+    try {
+      text = Buffer.from(raw, "base64").toString("utf8");
+    } catch {
+      return { ok: false, statusCode: 400, error: "invalid base64 body" };
+    }
+  }
+
+  // Raw text length limit (pre-parse)
+  if (text.length > maxChars) {
+    return { ok: false, statusCode: 413, error: "message too long" };
+  }
+
+  // Parse JSON
+  try {
+    const data = JSON.parse(text);
+    if (data && typeof data === "object") {
+      return { ok: true, data, rawLength: text.length };
+    }
+    return { ok: true, data: {}, rawLength: text.length };
+  } catch {
+    return { ok: false, statusCode: 400, error: "invalid JSON" };
+  }
 }
 ```
+
+I updated the handler to use the new parsing logic and enforce the limit:
+
+```ts
+const parsed = parseJsonBody(event, MAX_BODY_CHARS);
+if (!parsed.ok) {
+  return {
+    statusCode: parsed.statusCode,
+    headers: corsHeaders(event),
+    body: JSON.stringify({ error: parsed.error }),
+  };
+}
+
+const body = parsed.data;
+```
+
+I tested the implementation using payloads of different sizes (I temporarily changed `MAX_BODY_CHARS` to 100 for testing purposes).
+
+Test with small payload:
+
+![Small payload test](../img/65-lambda-test-200.png)
+
+Test with large payload:
+
+![Big payload test](../img/66-lambda-test-413.png)
 
 I also enabled throttling in the API Gateway settings and defined the rate limit as 10 and burst as 20.
 
@@ -356,15 +435,93 @@ if (!EMAIL_RE.test(email)) {
 
 Mesmo que o usuário coloque mais dos caracteres inseridos, o banco só registra até o max
 
-Para evitar payloads muito grandes e inundar o database. Foi feita uma alteração no Lambda code para retornar 413 caso o payload seja maior que 2000 caracteres:
+Para evitar payloads muito grandes e inundar o database. Foi feita uma alteração no Lambda code para retornar 413 caso o payload seja maior que 2000 caracteres. Primeiro, adicionei uma constante para o limite:
+
+`const MAX_BODY_CHARS = 2000;`
+
+Substituí o parsing do body por uma função robusta que:
+  - Valida isBase64Encoded
+  - Retorna 413 quando o payload excede MAX_BODY_CHARS
+  - Retorna 400 para JSON inválido
+  - Garante que o handler sempre trabalhe com um objeto
 
 ```ts
-if (body.length>2000) return {
-    statusCode: 413,
-    headers: corsHeaders(event),
-    body: JSON.stringify({ error: "message too long" }),
+function parseJsonBody(event, maxChars) {
+  const raw = event?.body;
+
+  if (!raw) {
+    return { ok: true, data: {}, rawLength: 0 };
+  }
+
+  // Se já vier como objeto (raro, mas possível), tenta medir e aceitar
+  if (typeof raw !== "string") {
+    try {
+      const asString = JSON.stringify(raw);
+      if (asString.length > maxChars) {
+        return { ok: false, statusCode: 413, error: "message too long" };
+      }
+      if (raw && typeof raw === "object") {
+        return { ok: true, data: raw, rawLength: asString.length };
+      }
+      return { ok: true, data: {}, rawLength: asString.length };
+    } catch {
+      return { ok: false, statusCode: 400, error: "invalid request body" };
+    }
+  }
+
+  // body string: decodifica se vier base64
+  let text = raw;
+  if (event?.isBase64Encoded === true) {
+    try {
+      text = Buffer.from(raw, "base64").toString("utf8");
+    } catch {
+      return { ok: false, statusCode: 400, error: "invalid base64 body" };
+    }
+  }
+
+  // limite no texto bruto (pré-parse)
+  if (text.length > maxChars) {
+    return { ok: false, statusCode: 413, error: "message too long" };
+  }
+
+  // parse JSON
+  try {
+    const data = JSON.parse(text);
+    if (data && typeof data === "object") {
+      return { ok: true, data, rawLength: text.length };
+    }
+    return { ok: true, data: {}, rawLength: text.length };
+  } catch {
+    return { ok: false, statusCode: 400, error: "invalid JSON" };
+  }
 }
 ```
+
+Atualizei o handler para usar o novo parse + limite:
+
+```ts
+const parsed = parseJsonBody(event, MAX_BODY_CHARS);
+if (!parsed.ok) {
+  return {
+    statusCode: parsed.statusCode,
+    headers: corsHeaders(event),
+    body: JSON.stringify({ error: parsed.error }),
+  };
+}
+
+const body = parsed.data;
+```
+
+Testes usando payloads de tamanhos diferentes (Alterei o `MAX_BODY_CHARS` para 100, apenas para testar)
+
+Teste com payload pequeno:
+
+![Small payload test](../img/65-lambda-test-200.png)
+
+Teste com payload grande:
+
+![Big payload test](../img/66-lambda-test-413.png)
+
 Também ativei o throttling nas configs do API Gateway e defini o rate limit para 10 e o burst para 20
 
 ![Throttling settings](../img/63-enable-throttling.png)
