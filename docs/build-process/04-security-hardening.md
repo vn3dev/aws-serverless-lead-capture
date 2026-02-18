@@ -309,6 +309,61 @@ This ensures that the write operation only succeeds if the item does not already
 
 ![Second post with same id](../img/68-lambda-2nd-post.png)
 
+Finally, I restricted the Resource fields in the IAM policies attached to the Lambda roles. Previously, the JSON used "*" as the resource. Now, I have limited each policy to the correct scope for its respective service.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogsBasic",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup"
+      ],
+      "Resource": "arn:aws:logs:xx-xxxx-x:xxxxxxxxxxxx:*"
+    },
+    {
+      "Sid": "CloudWatchLogsStreamEvents",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:xx-xxxx-x:xxxxxxxxxxxx:log-group:/aws/lambda/xxxxxxxxxxxxxxxxxxxxxxxx:*"
+    },
+    {
+      "Sid": "AllowSesSendEmail",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": [
+        "arn:aws:ses:xx-xxxx-x:xxxxxxxxxxxx:identity/xxxxxxxxxxxxxxxxxxxx@xxxxxxxx.xxx",
+        "arn:aws:ses:xx-xxxx-x:xxxxxxxxxxxx:identity/xxxxxxxxxxxxxxxx@xxxxxxxx.xxx"
+      ]
+    }
+  ]
+}
+```
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDynamoDBPutItem",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem"
+      ],
+      "Resource": "arn:aws:dynamodb:xx-xxxx-x:xxxxxxxxxxxx:table/xxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
+```
+
 I recognize that using AWS WAF would be easier and more efficient. However, since I am on the free tier and this is only a learning lab, I chose to keep the project cost-free.
 
 ---
@@ -619,5 +674,60 @@ Isso garante que a operação só vai funcionar se o item ja não existir:
 ![First post with same id](../img/67-lambda-first-post.png)
 
 ![Second post with same id](../img/68-lambda-2nd-post.png)
+
+Por fim, restringi os resources das policies nas roles do Lambda. Anteriormente json tinha * como resource. Agora, restringi para o escopo correto de cada serviço:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogsBasic",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup"
+      ],
+      "Resource": "arn:aws:logs:xx-xxxx-x:xxxxxxxxxxxx:*"
+    },
+    {
+      "Sid": "CloudWatchLogsStreamEvents",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:xx-xxxx-x:xxxxxxxxxxxx:log-group:/aws/lambda/xxxxxxxxxxxxxxxxxxxxxxxx:*"
+    },
+    {
+      "Sid": "AllowSesSendEmail",
+      "Effect": "Allow",
+      "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource": [
+        "arn:aws:ses:xx-xxxx-x:xxxxxxxxxxxx:identity/xxxxxxxxxxxxxxxxxxxx@xxxxxxxx.xxx",
+        "arn:aws:ses:xx-xxxx-x:xxxxxxxxxxxx:identity/xxxxxxxxxxxxxxxx@xxxxxxxx.xxx"
+      ]
+    }
+  ]
+}
+```
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDynamoDBPutItem",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem"
+      ],
+      "Resource": "arn:aws:dynamodb:xx-xxxx-x:xxxxxxxxxxxx:table/xxxxxxxxxxxxxxxxxxxx"
+    }
+  ]
+}
+```
 
 Reconheço que usar o WAF seria mais facil e eficiente. Mas como estou no free tier e esse é apenas um lab para aprendizado, optei por manter o projeto sem custos
