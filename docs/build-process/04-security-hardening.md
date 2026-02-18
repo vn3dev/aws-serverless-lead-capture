@@ -288,6 +288,27 @@ function validateRuntimeConfig() {
 }
 ```
 
+After that, I made additional changes to prevent spam.
+
+I created a dedupeKey and assigned it as the table’s primary key. If a user attempts to submit the same email on the same day, the record will not be saved in DynamoDB, nor will it trigger an email notification to the business owner.
+
+```
+const day = ts.slice(0, 10);
+const dedupeKey = sha256(`${email}|${message}|${day}`);
+
+id = dedupeKey // id in the table
+```
+
+Finally, I added protection to the PutCommand:
+
+`ConditionExpression: "attribute_not_exists(id)"`
+
+This ensures that the write operation only succeeds if the item does not already exist:
+
+![First post with same id](../img/67-lambda-first-post.png)
+
+![Second post with same id](../img/68-lambda-2nd-post.png)
+
 I recognize that using AWS WAF would be easier and more efficient. However, since I am on the free tier and this is only a learning lab, I chose to keep the project cost-free.
 
 ---
@@ -579,5 +600,24 @@ function validateRuntimeConfig() {
   return { ok: missing.length === 0, missing };
 }
 ```
+
+Depois disso, fiz algumas mudanças para evitar spam. Criei um dedupeKey e atribui como a chave primária da tabela. Se um usuário tentar postar o mesmo email no mesmo dia, não será gravado no ddb e nem enviado para o email do dono do negócio.
+
+```
+const day = ts.slice(0, 10);
+const dedupeKey = sha256(`${email}|${message}|${day}`);
+
+id = dedupeKey // id na table
+```
+
+Por fim, adicionei proteção no PutCommand:
+
+`ConditionExpression: "attribute_not_exists(id)"`
+
+Isso garante que a operação só vai funcionar se o item ja não existir:
+
+![First post with same id](../img/67-lambda-first-post.png)
+
+![Second post with same id](../img/68-lambda-2nd-post.png)
 
 Reconheço que usar o WAF seria mais facil e eficiente. Mas como estou no free tier e esse é apenas um lab para aprendizado, optei por manter o projeto sem custos
