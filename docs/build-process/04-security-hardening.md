@@ -364,6 +364,20 @@ Finally, I restricted the Resource fields in the IAM policies attached to the La
 }
 ```
 
+After that, I created a CloudWatch alarm to notify me whenever the API fails:
+
+![Alarm configuration page](../img/69-alarm-config.png)
+
+![Alarm configuration page2](../img/70-alarm-config2.png)
+
+I created an SNS subscription using my primary email address and simulated tests by forcing an error:
+
+![Lambda error response](../img/71-forced-test-error.png)
+
+Within a few seconds, I received an email notification indicating that the API had failed:
+
+![SNS API error email](../img/72-SNS-confirmation.png)
+
 I recognize that using AWS WAF would be easier and more efficient. However, since I am on the free tier and this is only a learning lab, I chose to keep the project cost-free.
 
 ---
@@ -729,5 +743,19 @@ Por fim, restringi os resources das policies nas roles do Lambda. Anteriormente 
   ]
 }
 ```
+
+Depois disso, ciei um alarme no CloudWatch para avisar quando a API falhar:
+
+![Alarm configuration page](../img/69-alarm-config.png)
+
+![Alarm configuration page2](../img/70-alarm-config2.png)
+
+Criei uma subscription no SNS usando o e-mail principal e simulei os testes forçando um erro:
+
+![Lambda error response](../img/71-forced-test-error.png)
+
+Em alguns segundos, recebi o e-mail informando que a API falhou:
+
+![SNS API error email](../img/72-SNS-confirmation.png)
 
 Reconheço que usar o WAF seria mais facil e eficiente. Mas como estou no free tier e esse é apenas um lab para aprendizado, optei por manter o projeto sem custos
