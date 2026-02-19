@@ -3,11 +3,14 @@
 ### IMPORTANT: This project was developed in a controlled environment for educational and self-learning purposes. This project did not go through security or authentication criteria. Using this in a real production environment may expose the company to system vulnerabilities and cause financial and legal consequences in accordance with the General Data Protection Law (Lei Geral de Proteção de Dados) and the Brazilian Civil Rights Framework for the Internet (Marco Civil da Internet). This project must not be reproduced in a professional environment without first undergoing a thorough security validation and best practices review.
 
 ## In this section:
-- I created an S3 bucket, configured static website hosting, adjusted permissions, and uploaded the project files via AWS CLI
-- Then, I registered a domain on Hostinger, requested a public certificate in ACM, and validated domain ownership via CNAME
-- Finally, I configured CloudFront with HTTPS, pointed DNS to the distribution, and made the bucket private, allowing access only through CloudFront
+- [S3 bucket (static website hosting + permissions + AWS CLI upload)](#s3-bucket-static-website-hosting--permissions--aws-cli-upload)
+- [Domain registration (Hostinger) + ACM certificate (CNAME validation)](#domain-registration-hostinger--acm-certificate-cname-validation)
+- [CloudFront (HTTPS) + DNS routing + private S3 access](#cloudfront-https--dns-routing--private-s3-access)
 
 ## Section 01 - Static Hosting on AWS with HTTPS:
+
+
+### S3 bucket (static website hosting + permissions + AWS CLI upload)
 
 `aws s3 ls` - To list existing buckets
 
@@ -57,6 +60,9 @@ If everything worked correctly, the site should now be live:
 
 ![Website working homepage](../img/05-hosted-website.png)
 
+
+### Domain registration (Hostinger) + ACM certificate (CNAME validation)
+
 The website is currently using the HTTP protocol. One of the requirements is to use HTTPS. For that, I need a public certificate from AWS.
 
 I will need a domain. I could not use Route 53 because it is not included in the AWS free tier. Therefore, I registered a domain on Hostinger.
@@ -84,6 +90,9 @@ In the AWS console, we must wait for DNS propagation for validation. It should t
 ![ACM pending validation](../img/11-pending%20verification.png)
 
 ![ACM issued validation](../img/12-issued-certificate.png)
+
+
+### CloudFront (HTTPS) + DNS routing + private S3 access
 
 With the certificate validated, I configured CloudFront to make the S3 bucket private and route traffic properly. On the CloudFront page, I created a new distribution:
 
@@ -158,11 +167,14 @@ You can confirm it was disabled with:
 ### IMPORTANTE: Esse projeto foi desenvolvido em um ambiente controlado com fins pedagógicos e de auto aprendizado. Esse projeto não passou por critérios de segurança ou autenticação. Usar isso em um ambiente de produção real pode expor a empresa a vulnerabilidades no sistema e causar consequências financeiras e legais de acordo com a Lei Geral de Proteção de Dados e o Marco Civil da Internet. Esse projeto não deve ser reproduzido em um ambiente profissional sem antes passar por uma validação minuciosa de segurança e boas práticas
 
 ## Nessa seção:
-- Eu criei um bucket S3, configurei o static website hosting, ajustei as permissões e subi os arquivos do projeto via AWS CLI
-- Depois, registrei um domínio na Hostinger, solicitei um certificado público no ACM e validei a posse do domínio via CNAME
-- Por fim, configurei o CloudFront com HTTPS, apontei o DNS para a distribuição e deixei o bucket privado, permitindo acesso apenas pelo CloudFront
+- [Bucket S3 (static website hosting + permissões + upload via AWS CLI)](#bucket-s3-static-website-hosting--permissões--upload-via-aws-cli)
+- [Registro de domínio (Hostinger) + certificado ACM (validação via CNAME)](#registro-de-domínio-hostinger--certificado-acm-validação-via-cname)
+- [CloudFront (HTTPS) + apontamento DNS + acesso privado ao S3](#cloudfront-https--apontamento-dns--acesso-privado-ao-s3)
 
 ## Seção 01 - Hosting Estatico na AWS com HTTPS:
+
+
+### Bucket S3 (static website hosting + permissões + upload via AWS CLI)
 
 `aws s3 ls` - Para ver os buckets ja existentes
 
@@ -212,6 +224,9 @@ Se tudo deu certo, o site já esta funcionando:
 
 ![Website working homepage](../img/05-hosted-website.png)
 
+
+### Registro de domínio (Hostinger) + certificado ACM (validação via CNAME)
+
 O website esta usando o protocolo HTTP. Um dos requisitos é utilizar HTTPS. Para isso, vou precisar de um certificado público da AWS
 
 Vou precisar de um domínio. Eu não pude usar o Route 53 pois ele não esta incluso no free tier da AWS. Por isso, registrei um dominio na Hostinger
@@ -239,6 +254,9 @@ No console AWS, temos que esperar a propagação do DNS para validar. Deve demor
 ![ACM pending validation](../img/11-pending%20verification.png)
 
 ![ACM issued validation](../img/12-issued-certificate.png)
+
+
+### CloudFront (HTTPS) + apontamento DNS + acesso privado ao S3
 
 Com o certificado validado, vamos configurar o CloudFront para poder privar o s3 e direcionar o tráfego. Na pagina do CloudFront, criei uma nova distribuição:
 

@@ -18,6 +18,7 @@
 
 ## Section 04 - Implementing security improvements and best practices
 
+
 ### Logs without PII (CloudWatch)
 
 I started by making a small change to how logs were recorded in CloudWatch. Previously, logs contained bodies with data such as name and email. However, for observability purposes, this is not necessary.
@@ -43,6 +44,7 @@ New log:
 ![CloudWatch new log](../img/59-new-logs.png)
 
 Anonymized data without information considered personal data or identifiers.
+
 
 ### Masked email in SES
 
@@ -82,6 +84,7 @@ New email:
 
 ![New email inbox message](../img/61-new-email.png)
 
+
 ### Restricted CORS in Lambda
 
 I enabled Lambda proxy integration in API Gateway, transferring CORS responsibility to Lambda. In Lambda, I specified which origins are valid and modified corsHeaders(event) to validate the origin:
@@ -111,6 +114,7 @@ function corsHeaders(event) {
 Attempting to fetch my API from another origin:
 
 ![Fetching my API from google.com](../img/62-response.png)
+
 
 ### Input validation + sanitization
 
@@ -152,6 +156,7 @@ if (!EMAIL_RE.test(email)) {
 ```
 
 Even if the user submits more characters than allowed, the database only stores up to the defined maximum.
+
 
 ### Payload limit + robust parsing
 
@@ -244,11 +249,13 @@ Test with large payload:
 
 ![Big payload test](../img/66-lambda-test-413.png)
 
+
 ### API Gateway throttling
 
 I also enabled throttling in the API Gateway settings and defined the rate limit as 10 and burst as 20.
 
 ![Throttling settings](../img/63-enable-throttling.png)
+
 
 ### Fail-fast with environment variables
 
@@ -306,6 +313,7 @@ function validateRuntimeConfig() {
 }
 ```
 
+
 ### Anti-spam with dedupe + conditional write
 
 After that, I made additional changes to prevent spam
@@ -328,6 +336,7 @@ This ensures that the write operation only succeeds if the item does not already
 ![First post with same id](../img/67-lambda-first-post.png)
 
 ![Second post with same id](../img/68-lambda-2nd-post.png)
+
 
 ### IAM least privilege (restricted resources)
 
@@ -386,6 +395,7 @@ Finally, I restricted the Resource fields in the IAM policies attached to the La
 }
 ```
 
+
 ### Alarms (CloudWatch + SNS)
 
 After that, I created a CloudWatch alarm to notify me whenever the API fails:
@@ -412,6 +422,7 @@ I also configured alerts to trigger when the forecasted cost for each service is
 ![Budgets page](../img/73-api-lambda-cost-alerts.png)
 
 ![Budgets alert config](../img/74-budgets-page.png)
+
 
 ### 90-day TTL in DynamoDB
 
@@ -457,6 +468,7 @@ Item: {
 
 ## Seção 04 - Implementando melhorias de segurança e boas prática
 
+
 ### Logs sem PII no CloudWatch
 
 Comecei fazendo uma pequena alteração em como os logs eram registrados no CloudWatch. Anteriormente, os logs continham bodies com dados como nome e email. Mas para a finalidade de observabilidade isso não é necessário. 
@@ -482,6 +494,7 @@ Log novo:
 ![CloudWatch new log](../img/59-new-logs.png)
 
 Dados anonimizados sem informações consideradas dados pessoais ou identificadores
+
 
 ### E-mail mascarado no SES
 
@@ -521,6 +534,7 @@ Email novo:
 
 ![New email inbox message](../img/61-new-email.png)
 
+
 ### CORS restrito no Lambda
 
 Ativei o lambda proxy integrations no API Gateway, passando a responsabilidade do CORS para o Lambda. No Lambda, especifiquei quais origins são válidas e alterei corsHeaders(event) para validar a origin:
@@ -550,6 +564,7 @@ function corsHeaders(event) {
 Ao tentar dar fetch com a minha API em um alguma outra origin:
 
 ![Fetching my API from google.com](../img/62-response.png)
+
 
 ### Validação + sanitização de input
 
@@ -591,6 +606,7 @@ if (!EMAIL_RE.test(email)) {
 ```
 
 Mesmo que o usuário coloque mais dos caracteres inseridos, o banco só registra até o max
+
 
 ### Limite de payload + parsing robusto
 
@@ -681,11 +697,13 @@ Teste com payload grande:
 
 ![Big payload test](../img/66-lambda-test-413.png)
 
+
 ### Throttling no API Gateway
 
 Também ativei o throttling nas configs do API Gateway e defini o rate limit para 10 e o burst para 20
 
 ![Throttling settings](../img/63-enable-throttling.png)
+
 
 ### Fail-fast com variáveis de ambiente
 
@@ -742,6 +760,7 @@ function validateRuntimeConfig() {
   return { ok: missing.length === 0, missing };
 }
 ```
+
 
 ### Anti-spam com dedupe + escrita condicional
 
@@ -823,6 +842,7 @@ Por fim, restringi os resources das policies nas roles do Lambda. Anteriormente 
 }
 ```
 
+
 ### Alarmes (CloudWatch + SNS)
 
 Depois disso, ciei um alarme no CloudWatch para avisar quando a API falhar:
@@ -839,6 +859,7 @@ Em alguns segundos, recebi o e-mail informando que a API falhou:
 
 ![SNS API error email](../img/72-SNS-confirmation.png)
 
+
 ### Budgets e alertas de custo
 
 Criei 3 alertas. Dessa vez, no Billing and Cost Management para disparar um aviso quando os custos gerais, do API Gateway/Lambda, e do DynamoDB atingirem 50%, 80%, 100% do budget. E também, para quando forecast de cada serviço for estourar o budget:
@@ -846,6 +867,7 @@ Criei 3 alertas. Dessa vez, no Billing and Cost Management para disparar um avis
 ![Budgets page](../img/73-api-lambda-cost-alerts.png)
 
 ![Budgets alert config](../img/74-budgets-page.png)
+
 
 ### TTL de 90 dias no DynamoDB
 
