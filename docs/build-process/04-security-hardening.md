@@ -84,9 +84,7 @@ New email:
 
 ### Restricted CORS in Lambda
 
-Now regarding CORS, the code previously allowed any origin to call my API. This allows other websites to use the API and read responses. To fix this, I enabled Lambda proxy integration in API Gateway, transferring CORS responsibility to Lambda. In Lambda, I specified which origins are valid and modified corsHeaders(event) to validate the origin.
-
-In Lambda:
+I enabled Lambda proxy integration in API Gateway, transferring CORS responsibility to Lambda. In Lambda, I specified which origins are valid and modified corsHeaders(event) to validate the origin:
 
 ```ts
 const ALLOWED_ORIGINS = new Set([
@@ -525,9 +523,7 @@ Email novo:
 
 ### CORS restrito no Lambda
 
-Agora sobre CORS, o código permitia qualquer origin chamar a minha API. Isso permite que outros sites usem a API e leiam as respostas. Para corrigir isso, ativei o lambda proxy integrations no API Gateway, passando a responsabilidade do CORS para o Lambda. No Lambda, especifiquei quais origins são válidas e alterei corsHeaders(event) para validar a origin
-
-No Lambda:
+Ativei o lambda proxy integrations no API Gateway, passando a responsabilidade do CORS para o Lambda. No Lambda, especifiquei quais origins são válidas e alterei corsHeaders(event) para validar a origin:
 
 ```ts
 const ALLOWED_ORIGINS = new Set([
