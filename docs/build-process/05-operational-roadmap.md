@@ -2,5 +2,11 @@
 
 ## Seção 05 - Planejando um roadmap de melhorias
 
-RASCUNHO: Planejar melhorias no projeto
-WAF + OBSERVABILIDADE + FILAS NO DDB + FLUXO COMPLETO DE DOWNLOAD + IAC
+RASCUNHO: Planejar melhorias no projeto - lista de prioridades
+- WAF - prioridade máxima
+- + observabilidade, metricas, dashboards 
+- separar lambda em ingestão e processamento
+- SQS entre os lambdas
+- fluxo completo de download enviando e-mail com link, precisaria de production access no SES 
+- IaC com terraform
+- route 53 para tornar tudo nativo - menos importante
