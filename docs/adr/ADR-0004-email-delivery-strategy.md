@@ -1,3 +1,5 @@
+[🇧🇷 Versão em Português](#versao-em-portugues)
+
 # ADR-0004 — Email Delivery Strategy using Amazon SES
 
 [19-02-2026] - by Vinicius Costa  
