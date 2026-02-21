@@ -1,1 +1,1 @@
-![Project diagram in draw.io](../img/serverless-lead-capture-diagram.png)
+![Project diagram final version](../img/serverless-lead-capture-diagramv2.png)

@@ -1,0 +1,1 @@
+![Project diagram in draw.io](../img/serverless-lead-capture-diagram.png)
