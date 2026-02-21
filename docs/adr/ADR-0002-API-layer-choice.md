@@ -1,4 +1,4 @@
-[🇧🇷 Versão em Português](#versao-em-portugues)
+[🇧🇷 Versão em Português](#-versão-em-português)
 
 # ADR-0002 — API Layer Architecture (API Gateway + Lambda)
 

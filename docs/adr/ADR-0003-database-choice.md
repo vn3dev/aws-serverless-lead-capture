@@ -1,4 +1,4 @@
-[🇧🇷 Versão em Português](#versao-em-portugues)
+[🇧🇷 Versão em Português](#-versão-em-português)
 
 # ADR-0003 — Database Strategy (Amazon DynamoDB)
 

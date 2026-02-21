@@ -1,4 +1,4 @@
-[🇧🇷 Versão em Português](#versao-em-portugues)
+[🇧🇷 Versão em Português](#-versão-em-português)
 
 # ADR-0006 — Data Retention and Compliance Strategy (LGPD Alignment)
 
