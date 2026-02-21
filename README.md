@@ -105,20 +105,20 @@ Serverless Architecture Design February 2026
 
 # Website Estático Serverless & Captura de Leads na AWS
 
-Uma arquitetura serverless totalmente gerenciada que entrega conteúdo estático via CloudFront e processa submissões de leads utilizando API Gateway, Lambda, DynamoDB e SES.
+Uma arquitetura serverless totalmente gerenciada que entrega conteúdo estático via CloudFront e processa submissões de leads utilizando API Gateway, Lambda, DynamoDB e SES
 
-Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivos estáticos são entregues através do CloudFront a partir de um bucket S3 privado, enquanto as submissões do formulário são processadas pelo API Gateway e AWS Lambda. Os leads são persistidos no DynamoDB e as notificações por e-mail são enviadas via Amazon SES. O monitoramento operacional e o controle de custos são implementados com CloudWatch e AWS Budgets.
+Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivos estáticos são entregues através do CloudFront a partir de um bucket S3 privado, enquanto as submissões do formulário são processadas pelo API Gateway e AWS Lambda. Os leads são persistidos no DynamoDB e as notificações por e-mail são enviadas via Amazon SES. O monitoramento operacional e o controle de custos são implementados com CloudWatch e AWS Budgets
 
 ## 📚 Documentação
 
-- [Registros de Decisão de Arquitetura (ADR)](./docs/adr/README.md)
+- [Registros de Decisão de Arquitetura](./docs/adr/README.md)
 - [Processo de Build](./docs/build-process/README.md)
 
 ## Diagrama de Arquitetura
 
 ![Diagrama de Arquitetura](docs/img/serverless-lead-capture-diagramv2.png)
 
-## Demonstração
+## Demo
 
 ### Fluxo de Submissão do Formulário
 
@@ -132,7 +132,7 @@ Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivo
 
 ![Teste de logs no CloudWatch](docs/img/cloudwatch-log-example.png)
 
-### E-mail do Responsável
+### E-mail do Dono
 
 ![Caixa de entrada do responsável](docs/img/email-example.png)
 ![Mensagem recebida](docs/img/email2-example.png)
@@ -160,7 +160,7 @@ Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivo
 - Amazon CloudWatch
 - Amazon SNS
 - AWS Budgets
-- AWS Certificate Manager (ACM)
+- AWS Certificate Manager
 
 ## Segurança & Hardening
 
@@ -200,4 +200,4 @@ Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivo
 ## Autor
 
 Vinicius Costa  
-Design de Arquitetura Serverless — Fevereiro 2026
+Design de Arquitetura Serverless Fevereiro 2026
