@@ -1,4 +1,4 @@
-[Versão PT-BR](#1-requisitos-de-negócio)
+[Versão PT-BR](#versao-em-portugues)
 
 # 1. Business Requirements
 
@@ -47,6 +47,8 @@ Access to storage resources must follow the principle of least privilege via IAM
 All external access must be via HTTPS
 
 ---
+
+# 🇧🇷 Versão em Português
 
 # 1. Regras de Negócio
 
