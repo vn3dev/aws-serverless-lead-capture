@@ -1,4 +1,4 @@
-[🇧🇷 Versão em Português](#versao-em-portugues)
+[🇧🇷 Versão em Português](#versão-em-português)
 
 # Serverless Static Website & Lead Capture on AWS
 
