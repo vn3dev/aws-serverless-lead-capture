@@ -8,6 +8,25 @@ This project implements a scalable serverless architecture on AWS. Static assets
 
 ![Architecture Diagram](docs/img/serverless-lead-capture-diagramv2.png)
 
+## Demo
+
+### Form Submission Flow
+
+![Input form test](docs/img/get-ebook-example.gif)
+
+### DynamoDB Persistence
+
+![Table item registry](docs/img/tableitem-example.png)
+
+### CloudWatch Logs
+
+![Cloudwatch log test](docs/img/cloudwatch-log-example.png)
+
+### Owner Email
+
+![Owner email inbox test](docs/img/email-example.png)
+![Owner email message test](docs/img/email2-example.png)
+
 ## Request Flow
 
 1. User → DNS → CloudFront  
@@ -71,4 +90,4 @@ This project implements a scalable serverless architecture on AWS. Static assets
 ## Author
 
 Vinicius Costa  
-Serverless Architecture Design — February 2026
+Serverless Architecture Design February 2026
