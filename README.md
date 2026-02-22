@@ -2,8 +2,6 @@
 
 # Serverless Static Website & Lead Capture on AWS
 
-A fully managed serverless architecture delivering static content via CloudFront and processing lead submissions using API Gateway, Lambda, DynamoDB, and SES
-
 This project implements a scalable serverless architecture on AWS. Static assets are delivered through CloudFront from a private S3 origin, while form submissions are processed through API Gateway and AWS Lambda. Leads are persisted in DynamoDB and email notifications are sent via Amazon SES. Operational monitoring and cost controls are implemented using CloudWatch and AWS Budgets
 
 ## 📚 Documentation
@@ -104,8 +102,6 @@ Serverless Architecture Design February 2026
 # 🇧🇷 Versão em Português
 
 # Website Estático Serverless & Captura de Leads na AWS
-
-Uma arquitetura serverless totalmente gerenciada que entrega conteúdo estático via CloudFront e processa submissões de leads utilizando API Gateway, Lambda, DynamoDB e SES
 
 Este projeto implementa uma arquitetura serverless escalável na AWS. Os arquivos estáticos são entregues através do CloudFront a partir de um bucket S3 privado, enquanto as submissões do formulário são processadas pelo API Gateway e AWS Lambda. Os leads são persistidos no DynamoDB e as notificações por e-mail são enviadas via Amazon SES. O monitoramento operacional e o controle de custos são implementados com CloudWatch e AWS Budgets
 
